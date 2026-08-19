@@ -127,7 +127,7 @@ with col_input:
 with col_map:
     st.subheader("🗺️ Live Incident & Crisis Map")
     
-    m = folium.Map(location=[17.4150, 78.4850], zoom_start=12)
+   m = folium.Map(location=[17.4150, 78.4850], zoom_start=12, tiles="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", attr="Google Maps")
     color_map = {"High": "red", "Medium": "orange", "Low": "green"}
     
     for item in st.session_state.reports:
