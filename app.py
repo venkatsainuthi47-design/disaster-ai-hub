@@ -127,24 +127,26 @@ with col_input:
 with col_map:
     st.subheader("🗺️ Live Incident & Crisis Map")
     
-    m = folium.Map(location=[17.4150, 78.4850], zoom_start=12, tiles="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}", attr="Google Maps")
-    color_map = {"High": "red", "Medium": "orange", "Low": "green"}
+    m = folium.Map(
+        location=[17.4150, 78.4850],
+        zoom_start=12,
+        tiles="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+        attr="Google Maps"
+    )
     
+    color_map = {"High": "red", "Medium": "orange", "Low": "green"}
+
     for item in st.session_state.reports:
-        marker_color = color_map.get(item["urgency"], "blue")
-        popup_content = f"""
-        <b>[{item['urgency']} Urgency] {item['category']}</b><br/>
-        <b>Summary:</b> {item['summary']}<br/>
-        """
+        popup_content = f"<b>[{item['urgency']}] {item['category']}</b><br>{item['summary']}"
+        
         folium.Marker(
             location=[item["lat"], item["lon"]],
             popup=folium.Popup(popup_content, max_width=250),
-            tooltip=f"{item['category']} ({item['urgency']})",
-            icon=folium.Icon(color=marker_color, icon="info-sign")
+            tooltip=f"[{item['urgency']}] {item['category']}",
+            icon=folium.Icon(color=color_map.get(item["urgency"], "blue"), icon="info-sign")
         ).add_to(m)
-    
-    st_folium(m, width=650, height=420)
 
+    st_folium(m, width=650, height=420)
 st.divider()
 st.subheader("📋 Active Incident Feed")
 
